@@ -1,2 +1,2 @@
-# Tarea2-Grupo7
-Tarea 2 grupo 7 
+# Cliente-Servidor-Python
+Aplicacion Cliente-Servidor base implementada con socket en lenguaje Python para la asignatura de Redes de Computadores.
