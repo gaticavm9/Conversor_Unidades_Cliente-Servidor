@@ -4,6 +4,14 @@
 
 import socket
 import sys
+import os
+
+def clear():
+    if os.name == "nt":
+        os.system("cls")
+    else:
+        os.system("clear")
+
 
 if len(sys.argv) != 3:
     print ("Agregar la IP del servidor y el puerto donde se ofrece el servicio.")
@@ -25,18 +33,20 @@ print ("\nConectado, escriba finalizar() para terminar la conección.\n")
 
 try:
     while True:
+        fin="finalizar()"
+        clear()
         print ("############### Bienvenido al conversor de unidades ###############")
         print ("Seleccione el tipo de conversor:")
         print ("1.Longitud 2.Area 3.Volumen 4.Peso 5.Temperatura") 
-        tipo = str(input("Ingrese el número de la opción >> "))
+        tipo = str(input("\nIngrese el número de la opción >> "))
         socket_cliente.send(tipo.encode("utf-8"))
         #Cantidad
-        print ("  ")
+        clear()
         print ("Ingrese la cantidad a convertir")
         cantidad = str(input("Cantidad: "))
         socket_cliente.send(cantidad.encode("utf-8"))
         #Desde
-        print ("  ")
+        clear()
         print ("Seleccione la unidad de inicio")
         if tipo == "1": 
                      print ("1.centímetros 2.metros 3.kilómetros 4.pulgadas 5.pies 6.yardas 7.millas")
@@ -61,7 +71,7 @@ try:
         else:
                     print('error')
 
-        #A
+        #Hacia
         print ("  ")
         print ("Seleccione la unidad final")
         if tipo == "1": 
@@ -73,7 +83,7 @@ try:
                      hacia = str(input("Ingrese opción: "))
                      socket_cliente.send(hacia.encode("utf-8"))
         elif tipo == "3": 
-                     print ("1.litros 2.pintas 3.galones")
+                     print ("1.litros 2.cc 3.galones")
                      hacia = str(input("Ingrese opción: "))
                      socket_cliente.send(hacia.encode("utf-8"))
         elif tipo == "4": 
@@ -87,16 +97,23 @@ try:
         else:
                     print('error')
 
-
-
-
-
-
-
-        if tipo == "finalizar()":
-            break
+        #Devolucion de resultado
+        clear()  
         recibido = socket_cliente.recv(1024).decode('utf-8')
-        print ("Servidor >> " + recibido)
+        print ("Resultado de la conversión: " + recibido)
+
+        #Opcion de continuar
+        print('\n\nSeleccione una opcion para continuar')
+        print('1.Volver a usar          2.Salir')
+        continuar = str(input("\nIngrese opción: "))
+        socket_cliente.send(continuar.encode("utf-8"))
+
+        if continuar == "2": 
+                         clear()  
+                         print('Cerrando...')
+                         #socket_cliente.send(fin.encode("utf-8"))
+                         break
+            
 
 except socket.error:
     print ("Se perdio la conexion con el servidor.")

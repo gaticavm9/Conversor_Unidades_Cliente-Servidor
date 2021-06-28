@@ -5,8 +5,15 @@
 import socket
 import sys
 import pint
+import os
 
 ureg = pint.UnitRegistry()
+
+def clear():
+    if os.name == "nt":
+        os.system("cls")
+    else:
+        os.system("clear")
 
 def get_ip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -38,7 +45,7 @@ socket_servidor.bind((IP, PUERTO))
 # El parametro indica el numero de conexiones entrantes que vamos a aceptar
 socket_servidor.listen(2)
 
-print ("Servicio configurado en puerto ", PUERTO, "en el servidor ", IP, "\n")
+print ("Servicio configurado en puerto ", PUERTO, "en el servidor ", IP)
 
 try:
     while True:
@@ -47,6 +54,7 @@ try:
         # direccion_cliente recibe la tupla de conexion: IP y puerto
         socket_cliente, direccion_cliente = socket_servidor.accept()
         print ("Cliente conectado desde: ", direccion_cliente)
+        
 
         while True:
             try:
@@ -56,7 +64,6 @@ try:
                 cant = socket_cliente.recv(1024).decode('utf-8')
                 print (direccion_cliente[0] + " >>2 ", cant)
                 cantidad=float(cant)
-                print(cantidad)
 
                 desde = socket_cliente.recv(1024).decode('utf-8')
                 print (direccion_cliente[0] + " >>3 ", desde)
@@ -98,7 +105,6 @@ try:
                              else             : print('error') 
                 else:
                             print('error')
-                print(medida)
                 
                 ##Conversion
                 hacia = socket_cliente.recv(1024).decode('utf-8')
@@ -143,16 +149,21 @@ try:
                 print(medidaC)
 
 
+                #Envio
+                respuesta_servidor = str(medidaC)
+                socket_cliente.send(respuesta_servidor.encode("utf-8"))
 
 
-                if tipo == "finalizar()":
+                continuar = socket_cliente.recv(1024).decode('utf-8')
+                print (direccion_cliente[0] + " >>C ", continuar)
+
+                if continuar == "2":
                     print ("Cliente finalizo la conexion.")
                     print ("Cerrando la conexion con el cliente ...")
                     socket_cliente.close()
                     print ("Conexion con el cliente cerrado.")
                     break
-                respuesta_servidor = direccion_cliente[0] + " envio: " + tipo
-                socket_cliente.send(respuesta_servidor.encode("utf-8"))
+                
             except socket.error:
                 print ("Conexion terminada abruptamente por el cliente.")
                 print ("Cerrando conexion con el cliente ...")
