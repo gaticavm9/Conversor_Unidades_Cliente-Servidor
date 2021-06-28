@@ -4,9 +4,9 @@
 
 import socket
 import sys
-import print
+import pint
 
-uniReg = pint.UnitRegistry()
+ureg = pint.UnitRegistry()
 
 def get_ip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -50,15 +50,108 @@ try:
 
         while True:
             try:
-                recibido = socket_cliente.recv(1024).decode('utf-8')
-                print (direccion_cliente[0] + " >> ", recibido)
-                if recibido == "finalizar()":
+                tipo = socket_cliente.recv(1024).decode('utf-8')
+                print (direccion_cliente[0] + " >>1 ", tipo)
+
+                cant = socket_cliente.recv(1024).decode('utf-8')
+                print (direccion_cliente[0] + " >>2 ", cant)
+                cantidad=float(cant)
+                print(cantidad)
+
+                desde = socket_cliente.recv(1024).decode('utf-8')
+                print (direccion_cliente[0] + " >>3 ", desde)
+
+
+                if tipo == "1": 
+                             if   desde == "1": medida=cantidad*ureg.cm
+                             elif desde == "2": medida=cantidad*ureg.meter
+                             elif desde == "3": medida=cantidad*ureg.km
+                             elif desde == "4": medida=cantidad*ureg.inch
+                             elif desde == "5": medida=cantidad*ureg.foot
+                             elif desde == "6": medida=cantidad*ureg.yard
+                             elif desde == "7": medida=cantidad*ureg.mile
+                             else             : print('error')
+                elif tipo == "2":
+                             if   desde == "1": medida=cantidad*ureg.cm**2
+                             elif desde == "2": medida=cantidad*ureg.meter**2
+                             elif desde == "3": medida=cantidad*ureg.hectare
+                             elif desde == "4": medida=cantidad*ureg.km**2
+                             elif desde == "5": medida=cantidad*ureg.inch**2
+                             elif desde == "6": medida=cantidad*ureg.foot**2
+                             elif desde == "7": medida=cantidad*ureg.acre
+                             elif desde == "8": medida=cantidad*ureg.mile**2
+                             else             : print('error') 
+                elif tipo == "3":
+                             if   desde == "1": medida=cantidad*ureg.liter
+                             elif desde == "2": medida=cantidad*ureg.cc
+                             elif desde == "3": medida=cantidad*ureg.gallon
+                             else             : print('error') 
+                elif tipo == "4": 
+                             if   desde == "1": medida=cantidad*ureg.gram
+                             elif desde == "2": medida=cantidad*ureg.kg
+                             elif desde == "3": medida=cantidad*ureg.ounce
+                             elif desde == "4": medida=cantidad*ureg.pound
+                             else             : print('error') 
+                elif tipo == "5": 
+                             if   desde == "1": medida=cantidad*ureg.degree_Celsius
+                             elif desde == "2": medida=cantidad*ureg.degree_Fahrenheit
+                             else             : print('error') 
+                else:
+                            print('error')
+                print(medida)
+                
+                ##Conversion
+                hacia = socket_cliente.recv(1024).decode('utf-8')
+                print (direccion_cliente[0] + " >>4 ", hacia)
+
+                if tipo == "1": 
+                             if   hacia == "1": medidaC=medida.to(ureg.cm)
+                             elif hacia == "2": medidaC=medida.to(ureg.meter)
+                             elif hacia == "3": medidaC=medida.to(ureg.km)
+                             elif hacia == "4": medidaC=medida.to(ureg.inch)
+                             elif hacia == "5": medidaC=medida.to(ureg.foot)
+                             elif hacia == "6": medidaC=medida.to(ureg.yard)
+                             elif hacia == "7": medidaC=medida.to(ureg.mile)
+                             else             : print('error')
+                elif tipo == "2":
+                             if   hacia == "1": medidaC=cantidad*ureg.cm**2
+                             elif hacia == "2": medidaC=cantidad*ureg.meter**2
+                             elif hacia == "3": medidaC=cantidad*ureg.hectare
+                             elif hacia == "4": medidaC=cantidad*ureg.km**2
+                             elif hacia == "5": medidaC=cantidad*ureg.inch**2
+                             elif hacia == "6": medidaC=cantidad*ureg.foot**2
+                             elif hacia == "7": medidaC=cantidad*ureg.acre
+                             elif hacia == "8": medidaC=cantidad*ureg.mile**2
+                             else             : print('error') 
+                elif tipo == "3":
+                             if   hacia == "1": medidaC=cantidad*ureg.liter
+                             elif hacia == "2": medidaC=cantidad*ureg.cc
+                             elif hacia == "3": medidaC=cantidad*ureg.gallon
+                             else             : print('error') 
+                elif tipo == "4": 
+                             if   hacia == "1": medidaC=cantidad*ureg.gram
+                             elif hacia == "2": medidaC=cantidad*ureg.kg
+                             elif hacia == "3": medidaC=cantidad*ureg.ounce
+                             elif hacia == "4": medidaC=cantidad*ureg.pound
+                             else             : print('error') 
+                elif tipo == "5": 
+                             if   hacia == "1": medidaC=cantidad*ureg.degree_Celsius
+                             elif hacia == "2": medidaC=cantidad*ureg.degree_Fahrenheit
+                             else             : print('error') 
+                else:
+                            print('error')
+                print(medidaC)
+
+
+
+
+                if tipo == "finalizar()":
                     print ("Cliente finalizo la conexion.")
                     print ("Cerrando la conexion con el cliente ...")
                     socket_cliente.close()
                     print ("Conexion con el cliente cerrado.")
                     break
-                respuesta_servidor = direccion_cliente[0] + " envio: " + recibido
+                respuesta_servidor = direccion_cliente[0] + " envio: " + tipo
                 socket_cliente.send(respuesta_servidor.encode("utf-8"))
             except socket.error:
                 print ("Conexion terminada abruptamente por el cliente.")

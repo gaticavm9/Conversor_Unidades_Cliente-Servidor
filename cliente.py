@@ -31,10 +31,12 @@ try:
         tipo = str(input("Ingrese el número de la opción >> "))
         socket_cliente.send(tipo.encode("utf-8"))
         #Cantidad
+        print ("  ")
         print ("Ingrese la cantidad a convertir")
         cantidad = str(input("Cantidad: "))
         socket_cliente.send(cantidad.encode("utf-8"))
         #Desde
+        print ("  ")
         print ("Seleccione la unidad de inicio")
         if tipo == "1": 
                      print ("1.centímetros 2.metros 3.kilómetros 4.pulgadas 5.pies 6.yardas 7.millas")
@@ -45,7 +47,7 @@ try:
                      desde = str(input("Ingrese opción: "))
                      socket_cliente.send(desde.encode("utf-8"))
         elif tipo == "3": 
-                     print ("1.litros 2.pintas 3.galones")
+                     print ("1.litros 2.cc 3.galones")
                      desde = str(input("Ingrese opción: "))
                      socket_cliente.send(desde.encode("utf-8"))
         elif tipo == "4": 
@@ -64,24 +66,24 @@ try:
         print ("Seleccione la unidad final")
         if tipo == "1": 
                      print ("1.centímetros 2.metros 3.kilómetros 4.pulgadas 5.pies 6.yardas 7.millas")
-                     desde = str(input("Ingrese opción: "))
-                     socket_cliente.send(desde.encode("utf-8"))
+                     hacia = str(input("Ingrese opción: "))
+                     socket_cliente.send(hacia.encode("utf-8"))
         elif tipo == "2": 
                      print ("1.centímetros² 2.metros² 3.hectáreas 4.kilómetros² 5.pulgadas² 6.pies² 7.acres 8.millas²")
-                     desde = str(input("Ingrese opción: "))
-                     socket_cliente.send(desde.encode("utf-8"))
+                     hacia = str(input("Ingrese opción: "))
+                     socket_cliente.send(hacia.encode("utf-8"))
         elif tipo == "3": 
                      print ("1.litros 2.pintas 3.galones")
-                     desde = str(input("Ingrese opción: "))
-                     socket_cliente.send(desde.encode("utf-8"))
+                     hacia = str(input("Ingrese opción: "))
+                     socket_cliente.send(hacia.encode("utf-8"))
         elif tipo == "4": 
                      print ("1.gramos 2.kilogramos 3.onzas 4.libras")
-                     desde = str(input("Ingrese opción: "))
-                     socket_cliente.send(desde.encode("utf-8"))
+                     hacia = str(input("Ingrese opción: "))
+                     socket_cliente.send(hacia.encode("utf-8"))
         elif tipo == "5": 
                      print ("1.Centígrados 2.Fahrenheit")
-                     desde = str(input("Ingrese opción: "))
-                     socket_cliente.send(desde.encode("utf-8"))
+                     hacia = str(input("Ingrese opción: "))
+                     socket_cliente.send(hacia.encode("utf-8"))
         else:
                     print('error')
 
