@@ -8,6 +8,7 @@ import pint
 import os
 
 ureg = pint.UnitRegistry()
+Q_ = ureg.Quantity
 
 def clear():
     if os.name == "nt":
@@ -100,12 +101,14 @@ try:
                              elif desde == "4": medida=cantidad*ureg.pound
                              else             : print('error') 
                 elif tipo == "5": 
-                             if   desde == "1": medida=cantidad*ureg.degree_Celsius
-                             elif desde == "2": medida=cantidad*ureg.degree_Fahrenheit
+                             if   desde == "1": medida=Q_(cantidad, ureg.degC)
+                             elif desde == "2": medida=Q_(cantidad, ureg.degF)
+                             elif desde == "3": medida=Q_(cantidad, ureg.kelvin)
                              else             : print('error') 
                 else:
                             print('error')
-                
+                print(medida)
+
                 ##Conversion
                 hacia = socket_cliente.recv(1024).decode('utf-8')
                 print (direccion_cliente[0] + " >>4 ", hacia)
@@ -120,29 +123,30 @@ try:
                              elif hacia == "7": medidaC=medida.to(ureg.mile)
                              else             : print('error')
                 elif tipo == "2":
-                             if   hacia == "1": medidaC=cantidad*ureg.cm**2
-                             elif hacia == "2": medidaC=cantidad*ureg.meter**2
-                             elif hacia == "3": medidaC=cantidad*ureg.hectare
-                             elif hacia == "4": medidaC=cantidad*ureg.km**2
-                             elif hacia == "5": medidaC=cantidad*ureg.inch**2
-                             elif hacia == "6": medidaC=cantidad*ureg.foot**2
-                             elif hacia == "7": medidaC=cantidad*ureg.acre
-                             elif hacia == "8": medidaC=cantidad*ureg.mile**2
+                             if   hacia == "1": medidaC=medida.to(ureg.cm**2)
+                             elif hacia == "2": medidaC=medida.to(ureg.meter**2)
+                             elif hacia == "3": medidaC=medida.to(ureg.hectare)
+                             elif hacia == "4": medidaC=medida.to(ureg.km**2)
+                             elif hacia == "5": medidaC=medida.to(ureg.inch**2)
+                             elif hacia == "6": medidaC=medida.to(ureg.foot**2)
+                             elif hacia == "7": medidaC=medida.to(ureg.acre)
+                             elif hacia == "8": medidaC=medida.to(ureg.mile**2)
                              else             : print('error') 
                 elif tipo == "3":
-                             if   hacia == "1": medidaC=cantidad*ureg.liter
-                             elif hacia == "2": medidaC=cantidad*ureg.cc
-                             elif hacia == "3": medidaC=cantidad*ureg.gallon
+                             if   hacia == "1": medidaC=medida.to(ureg.liter)
+                             elif hacia == "2": medidaC=medida.to(ureg.cc)
+                             elif hacia == "3": medidaC=medida.to(ureg.gallon)
                              else             : print('error') 
                 elif tipo == "4": 
-                             if   hacia == "1": medidaC=cantidad*ureg.gram
-                             elif hacia == "2": medidaC=cantidad*ureg.kg
-                             elif hacia == "3": medidaC=cantidad*ureg.ounce
-                             elif hacia == "4": medidaC=cantidad*ureg.pound
+                             if   hacia == "1": medidaC=medida.to(ureg.gram)
+                             elif hacia == "2": medidaC=medida.to(ureg.kg)
+                             elif hacia == "3": medidaC=medida.to(ureg.ounce)
+                             elif hacia == "4": medidaC=medida.to(ureg.pound)
                              else             : print('error') 
                 elif tipo == "5": 
-                             if   hacia == "1": medidaC=cantidad*ureg.degree_Celsius
-                             elif hacia == "2": medidaC=cantidad*ureg.degree_Fahrenheit
+                             if   hacia == "1": medidaC=medida.to('degC')
+                             elif hacia == "2": medidaC=medida.to('degF')
+                             elif hacia == "3": medidaC=medida.to('kelvin')
                              else             : print('error') 
                 else:
                             print('error')

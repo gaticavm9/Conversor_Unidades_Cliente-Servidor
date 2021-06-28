@@ -65,7 +65,7 @@ try:
                      desde = str(input("Ingrese opción: "))
                      socket_cliente.send(desde.encode("utf-8"))
         elif tipo == "5": 
-                     print ("1.Centígrados 2.Fahrenheit")
+                     print ("1.Centígrados 2.Fahrenheit 3.Kelvin")
                      desde = str(input("Ingrese opción: "))
                      socket_cliente.send(desde.encode("utf-8"))
         else:
@@ -91,7 +91,7 @@ try:
                      hacia = str(input("Ingrese opción: "))
                      socket_cliente.send(hacia.encode("utf-8"))
         elif tipo == "5": 
-                     print ("1.Centígrados 2.Fahrenheit")
+                     print ("1.Centígrados 2.Fahrenheit 3.Kelvin")
                      hacia = str(input("Ingrese opción: "))
                      socket_cliente.send(hacia.encode("utf-8"))
         else:
